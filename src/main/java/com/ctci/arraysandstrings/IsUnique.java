@@ -16,7 +16,8 @@ public class IsUnique {
      * @return true if all characters are different from each other, otherwise false.
      */
     public static boolean hasDifferentIndividualCharacters(String inputString) {
-        int maxCharacterDecimal = 128;
+        int  maxCharacterDecimal = 128;
+
         if (inputString == null
                 || inputString.isEmpty()
                 || inputString.length() > maxCharacterDecimal) {

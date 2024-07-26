@@ -5,21 +5,49 @@ import org.junit.jupiter.api.*;
 public class IsUniqueTest {
 
     @Nested
-    @DisplayName("Test cases for hasAllUniqueCharacters() method")
-    class TestCases_For_HasAllUniqueCharacters {
+    @DisplayName("Test cases for hasDifferentIndividualCharacters() method")
+    class TestCasesForHasDifferentIndividualCharacters {
 
         @Test
-        public void testHasAllUniqueCharacters_StringIsNull_ReturnFalse() {
+        public void testHasDifferentIndividualCharacters_StringIsNull_ReturnFalse() {
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters(null));
         }
 
         @Test
-        public void testHasAllUniqueCharacters_StringIsEmpty_ReturnFalse() {
+        public void testHasDifferentIndividualCharacters_StringIsEmpty_ReturnFalse() {
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters(""));
         }
 
         @Test
-        public void testHasAllUniqueCharacters_DuplicateAtHead_ReturnFalse() {
+        public void testHasDifferentIndividualCharacters_StringLengthSmallerOrEqual128_ReturnFalse() {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < 128; i++) {
+                stringBuilder.append((char) i);
+            }
+            Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters(stringBuilder.toString()));
+
+            stringBuilder.setLength(0);
+            for (int i = 1; i < 127; i++) {
+                stringBuilder.append((char) i);
+            }
+            Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters(stringBuilder.toString()));
+        }
+
+        @Test
+        public void testHasDifferentIndividualCharacters_StringLengthLargerThan128_ReturnFalse() {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < 128; i++) {
+                stringBuilder.append((char) i);
+            }
+            stringBuilder.append("a");
+
+            Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters(stringBuilder.toString()));
+        }
+
+        @Test
+        public void testHasDifferentIndividualCharacters_DuplicateAtHead_ReturnFalse() {
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("aab"));
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("AAb"));
 
@@ -30,7 +58,7 @@ public class IsUniqueTest {
         }
 
         @Test
-        public void testHasAllUniqueCharacters_DuplicateAtMiddle_ReturnFalse() {
+        public void testHasDifferentIndividualCharacters_DuplicateAtMiddle_ReturnFalse() {
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("abcbd"));
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("aBcBd"));
 
@@ -41,7 +69,7 @@ public class IsUniqueTest {
         }
 
         @Test
-        public void testHasAllUniqueCharacters_DuplicateAtTail_ReturnFalse() {
+        public void testHasDifferentIndividualCharacters_DuplicateAtTail_ReturnFalse() {
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("aba"));
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("AbA"));
 
@@ -52,7 +80,7 @@ public class IsUniqueTest {
         }
 
         @Test
-        public void testHasAllUniqueCharacters_OnlyOneCharacter_ReturnTrue() {
+        public void testHasDifferentIndividualCharacters_OnlyOneCharacter_ReturnTrue() {
             Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters("a"));
             Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters("1"));
             Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters("A"));
@@ -60,24 +88,25 @@ public class IsUniqueTest {
         }
 
         @Test
-        public void testHasAllUniqueCharacters_OnlyOneCharacter_ReturnFalse() {
+        public void testHasDifferentIndividualCharacters_OnlyOneCharacter_ReturnFalse() {
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("á"));
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("Ô"));
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("€"));
         }
 
         @Test
-        public void testHasAllUniqueCharacters_InvalidString_ReturnFalse() {
+        public void testHasDifferentIndividualCharacters_InvalidString_ReturnFalse() {
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("€á"));
             Assertions.assertFalse(IsUnique.hasDifferentIndividualCharacters("áÂ"));
         }
 
         @Test
-        public void testHasAllUniqueCharacters_ValidString_ReturnTrue() {
+        public void testHasDifferentIndividualCharacters_ValidString_ReturnTrue() {
             Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters("aAb"));
             Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters("abcBd"));
             Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters("abA"));
-            Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
+            Assertions.assertTrue(IsUnique.hasDifferentIndividualCharacters(
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
         }
     }
 }
