@@ -1,21 +1,61 @@
 package com.ctci.arraysandstrings;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author rampatra
  * @since 18/11/2018
  */
 public class IsUnique {
 
-    private static boolean hasAllUniqueCharacters(String str) {
-        if (str == null || str.length() > 128) return false;
+    /**
+     * Check whether the input string contains different individual characters in the ASCII table.
+     *
+     * @param inputString Input string
+     * @return true if all characters are different from each other, otherwise false.
+     */
+    public static boolean hasDifferentIndividualCharacters(String inputString) {
+        int maxCharacterDecimal = 128;
+        if (inputString == null
+                || inputString.isEmpty()
+                || inputString.length() > maxCharacterDecimal) {
+            return false;
+        }
 
-        boolean[] charSet = new boolean[128]; // assuming the string contains only ASCII characters
-        for (int i = 0; i < str.length(); i++) {
-            int charVal = str.charAt(i);
-            if (charSet[charVal]) {
+        boolean[] characterTrack = new boolean[maxCharacterDecimal];
+
+        int inputStringLength = inputString.length();
+        for (int i = 0; i < inputStringLength; i++) {
+            int charInDecimal = inputString.charAt(i);
+
+            if (charInDecimal >= maxCharacterDecimal
+                    || characterTrack[charInDecimal]) {
                 return false;
             }
-            charSet[charVal] = true;
+
+            characterTrack[charInDecimal] = true;
+        }
+        return true;
+    }
+
+    /**
+     * Check whether the input string contains different individual characters.
+     *
+     * @param inputString Input string
+     * @return true if all characters are different from each other, otherwise false.
+     */
+    public static boolean hasAllUniqueCharactersEnhancement(String inputString) {
+        if (inputString == null || inputString.isEmpty()) {
+            return false;
+        }
+
+        Set<Character> charSet = new HashSet<>();
+        char[] inputStingArr = inputString.toCharArray();
+        for (char c : inputStingArr) {
+            if (!charSet.add(c)) {
+                return false;
+            }
         }
         return true;
     }
@@ -34,11 +74,11 @@ public class IsUnique {
 
     public static void main(String[] args) {
         String s = "ram";
-        System.out.println(hasAllUniqueCharacters(s));
+        System.out.println(hasDifferentIndividualCharacters(s));
         s = "rama";
-        System.out.println(hasAllUniqueCharacters(s));
+        System.out.println(hasDifferentIndividualCharacters(s));
         s = "ramA";
-        System.out.println(hasAllUniqueCharacters(s));
+        System.out.println(hasDifferentIndividualCharacters(s));
         System.out.println("-------");
         s = "ram";
         System.out.println(hasAllUniqueCharactersWhenStringContainsAllLowercase(s));
