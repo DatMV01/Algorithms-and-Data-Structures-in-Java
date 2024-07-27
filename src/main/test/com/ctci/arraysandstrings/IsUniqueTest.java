@@ -6,7 +6,7 @@ public class IsUniqueTest {
 
     @Nested
     @DisplayName("Test cases for isAllCharactersUniqueAndInASCII()")
-    class TestCasesForIsAllCharactersUniqueAndInASCII{
+    class TestCasesForIsAllCharactersUniqueAndInASCII {
 
         @Test
         public void isAllCharactersUniqueAndInASCII_StringIsNull_ReturnFalse() {
@@ -109,4 +109,116 @@ public class IsUniqueTest {
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
         }
     }
+
+    @Nested
+    @DisplayName("Test cases for isAllCharactersUniqueAndLowercaseAndInAlphabet()")
+    class TestCasesForIsAllCharactersUniqueAndLowercaseAndInAlphabet {
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_StringIsNull_ReturnFalse() {
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet(null));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_StringIsEmpty_ReturnFalse() {
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet(""));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_StringLengthSmallerOrEqual26_ReturnFalse() {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 97; i <= 122; i++) {   // 'a' -> 'z'
+                stringBuilder.append((char) i);
+            }
+            Assertions.assertTrue(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet(stringBuilder.toString()));
+
+            stringBuilder.setLength(0);
+            for (int i = 100; i <= 120; i++) {   // 'a' -> 'z'
+                stringBuilder.append((char) i);
+            }
+            Assertions.assertTrue(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet(stringBuilder.toString()));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_StringLengthLargerThan26_ReturnFalse() {
+            String a2z = "abcdefghijklmnopqrstuvwxyz";
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet(a2z + (char) 96)); // 96 => `
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet(a2z + (char) 123)); // 123 => {
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_Beyond_a2z_ReturnFalse() {
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("GH@"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("{} "));
+
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("ááb"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("ÁÁb"));
+
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("1123456"));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_DuplicateAtHead_ReturnFalse() {
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("aab"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("AAb"));
+
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("ááb"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("ÁÁb"));
+
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("1123456"));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_DuplicateAtMiddle_ReturnFalse() {
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("abcbd"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("aBcBd"));
+
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("aưcưd"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("aƯcƯd"));
+
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("123436"));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_DuplicateAtTail_ReturnFalse() {
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("aba"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("AbA"));
+
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("ăbă"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("ĂbĂ"));
+
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("1234566"));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_OnlyOneCharacter_ReturnTrue() {
+            for (int i = 97; i <= 122; i++) {
+                Assertions.assertTrue(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet(String.valueOf((char) i)));
+            }
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_OnlyOneCharacter_ReturnFalse() {
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("A"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("á"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("Ô"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("€"));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_InvalidString_ReturnFalse() {
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("€á"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("áÂ"));
+            Assertions.assertFalse(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("aB"));
+        }
+
+        @Test
+        public void isAllCharactersUniqueAndLowercaseAndInAlphabet_ValidString_ReturnTrue() {
+            Assertions.assertTrue(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("mwq"));
+            Assertions.assertTrue(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("fwoklt"));
+            Assertions.assertTrue(IsUnique.isAllCharactersUniqueAndLowercaseAndInAlphabet("abcdefghijklmnopqrstuvwxyz"));
+        }
+    }
+
 }
