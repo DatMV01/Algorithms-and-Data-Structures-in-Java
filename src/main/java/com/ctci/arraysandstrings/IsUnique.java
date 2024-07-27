@@ -37,14 +37,37 @@ public class IsUnique {
         return true;
     }
 
-    private static boolean hasAllUniqueCharactersWhenStringContainsAllLowercase(String s) {
+    /**
+     * Check whether the input string contains different individual characters, lowercase
+     * and in between 'a' and 'z'
+     *
+     * @param str Input string
+     * @return true if all characters are different from each other,lowercase and between 'a' and 'z', otherwise false.
+     */
+    public static boolean isAllCharactersUniqueAndLowercaseAndInAlphabet(String str) {
+        if (str == null
+                || str.isEmpty()
+                || str.length() > 26) {
+            return false;
+        }
+
         int checker = 0;
-        for (int i = 0; i < s.length(); i++) {
-            int charValue = s.charAt(i) - 'a';
-            if ((checker & (1 << charValue)) > 0) {
+        int stringLength = str.length();
+        for (int i = 0; i < stringLength; i++) {
+
+            char character = str.charAt(i);
+            if (!(character >= 'a' && character <= 'z')) {
                 return false;
             }
-            checker |= (1 << charValue);
+
+            int characterIndex  = character - 'a';
+            int singleBitOnPosition = 1 << characterIndex ;
+
+            if ((checker & singleBitOnPosition) > 0) {
+                return false;
+            }
+
+            checker |= singleBitOnPosition; // checker = checker | singleBitOnPosition;
         }
         return true;
     }
@@ -58,11 +81,11 @@ public class IsUnique {
         System.out.println(isAllCharactersUniqueAndInASCII(s));
         System.out.println("-------");
         s = "ram";
-        System.out.println(hasAllUniqueCharactersWhenStringContainsAllLowercase(s));
+        System.out.println(isAllCharactersUniqueAndLowercaseAndInAlphabet(s));
         s = "rama";
-        System.out.println(hasAllUniqueCharactersWhenStringContainsAllLowercase(s));
+        System.out.println(isAllCharactersUniqueAndLowercaseAndInAlphabet(s));
         // not working as the input contains different cases
         s = "ramA";
-        System.out.println(hasAllUniqueCharactersWhenStringContainsAllLowercase(s));
+        System.out.println(isAllCharactersUniqueAndLowercaseAndInAlphabet(s));
     }
 }
